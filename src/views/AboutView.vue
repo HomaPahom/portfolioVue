@@ -1,8 +1,11 @@
 <template>
+  <!-- Основной раздел с профилем и информацией о себе -->
   <section class="main-section">
     <div class="inner-section">
       <div class="profile">
+        <!-- Компонент для отображения круглой картинки профиля -->
         <RoundPicture imageLink="me.jpg" altText="Profile picture of me" />
+        <!-- Контейнер для отображения эмодзи -->
         <div class="emojis">
           <span>🔐</span>
           <span>💻</span>
@@ -10,55 +13,50 @@
         </div>
       </div>
       <div>
+        <!-- Заголовок с анимацией текста -->
         <h1 tabindex="-1" id="about-me" class="animate-text">
           <span>Hello there,</span> <span>I'm&nbsp;Homa.</span>
         </h1>
+        <!-- Параграфы с информацией о себе -->
         <p>
-          I am a student from Tashkent, currently studying in my fourth year in the field of I
-          nformation Security.
+          I am a student from Tashkent, currently studying in my fourth year in the field of Information Security.
         </p>
         <p>
-          At the moment, I am focusing on studying penetration testing, which I believe is one of
-          the most exciting and important areas in cybersecurity.
+          At the moment, I am focusing on studying penetration testing, which I believe is one of the most exciting and important areas in cybersecurity.
         </p>
         <p>
-          My specialization is web development. I am studying the basics of cybersecurity and
-          pentesting, and I strive to apply my knowledge in practice. I have experience working with
-          various web technologies and continue to learn new frameworks and tools to improve my
-          skills.
+          My specialization is web development. I am studying the basics of cybersecurity and pentesting, and I strive to apply my knowledge in practice. I have experience working with various web technologies and continue to learn new frameworks and tools to improve my skills.
         </p>
         <p>
-          In my free time, I engage in many interesting activities. I love playing video games,
-          which allows me to develop strategic thinking and tactical skills. In the evenings, I
-          often sit down to watch movies or series to relax and enjoy good stories.
+          In my free time, I engage in many interesting activities. I love playing video games, which allows me to develop strategic thinking and tactical skills. In the evenings, I often sit down to watch movies or series to relax and enjoy good stories.
         </p>
         <p>
-          I am always open to new acquaintances and opportunities, so I look forward to
-          communicating and collaborating with like-minded individuals!
+          I am always open to new acquaintances and opportunities, so I look forward to communicating and collaborating with like-minded individuals!
         </p>
       </div>
     </div>
   </section>
+  <!-- Раздел с информацией о навыках и опыте -->
   <section>
     <div class="inner-section">
+      <!-- Раздел с инструментами разработчика -->
       <ExpandableSection title="Developer tools">
         <p>HTML, CSS, SCSS, JavaScript, Vue, Node.js, WordPress, Git.</p>
       </ExpandableSection>
+      <!-- Раздел с инструментами UX/UI -->
       <ExpandableSection title="UX/UI tools">
         <p>Figma (Adobe XD, Sketch), Adobe Photoshop/Illustrator/InDesign.</p>
       </ExpandableSection>
+      <!-- Раздел с опытом работы -->
       <ExpandableSection title="Experience">
         <div>
           <div class="content">
             <h4>Idea Company</h4>
             <small class="date">January 2022 - January 2023 (1 year 1 month)</small>
             <p class="small">
-              Position: Graphic Designer. Created logos, advertising banners, and social media
-              content while collaborating with clients to meet their needs.
+              Position: Graphic Designer. Created logos, advertising banners, and social media content while collaborating with clients to meet their needs.
               <br /><br />
-              Achievements: Designed over 20 logos for startups, boosting their market recognition.
-              Developed banners for campaigns, increasing engagement by 30%, and created content
-              that grew followers by 15%.
+              Achievements: Designed over 20 logos for startups, boosting their market recognition. Developed banners for campaigns, increasing engagement by 30%, and created content that grew followers by 15%.
             </p>
           </div>
           <div class="content">
@@ -67,24 +65,21 @@
             <p class="small">
               Position: Logistics Department. Handled accounting, auditing, and data management.
               <br /><br />
-              Achievements: Developed an interactive Google Sheets board that automated
-              calculations, reducing processing time by 30% and enhancing reporting accuracy.
+              Achievements: Developed an interactive Google Sheets board that automated calculations, reducing processing time by 30% and enhancing reporting accuracy.
             </p>
           </div>
           <div class="content">
             <h4>FL.ru</h4>
             <small class="date">April 2024 - August 2024 (5 months)</small>
             <p class="small">
-              Position: Freelance Web Developer. Created websites, focusing on usability and SEO
-              optimization.
+              Position: Freelance Web Developer. Created websites, focusing on usability and SEO optimization.
               <br /><br />
-              Achievements: Increased organic traffic by 25% through SEO optimization and improved
-              conversion rates by 15% with enhanced user interfaces.
+              Achievements: Increased organic traffic by 25% through SEO optimization and improved conversion rates by 15% with enhanced user interfaces.
             </p>
           </div>
         </div>
       </ExpandableSection>
-
+      <!-- Раздел с образованием -->
       <ExpandableSection title="Education">
         <div class="small-text">
           <div class="content">
@@ -110,19 +105,22 @@
       </ExpandableSection>
     </div>
   </section>
+  <!-- Раздел с социальными сетями -->
   <section>
     <div class="inner-section">
       <h2>Socials</h2>
       <p>Feel free to reach out to me on social media.</p>
       <div class="links">
+        <!-- Компоненты для отображения внешних ссылок -->
         <ExternalLink title="Telegram" link="https://t.me/Who_Homa" />
-        <ExternalLink title="Github" link="https://github.com/duvan094" />
+        <ExternalLink title="Github" link="https://github.com/HomaPahom" />
       </div>
     </div>
   </section>
 </template>
 
 <script setup>
+// Импорт компонентов
 import ExternalLink from '../components/ExternalLink.vue'
 import ExpandableSection from '../components/ExpandableSection.vue'
 import RoundPicture from '../components/RoundPicture.vue'

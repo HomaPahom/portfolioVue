@@ -1,26 +1,29 @@
 <script setup>
-
+// Импорт необходимых функций из Vue
 import { defineEmits, ref, onMounted } from 'vue'
 
+// Реактивная переменная для хранения ссылки на canvas
 const canvas = ref(null)
+// Определение события для передачи в родительский компонент
 const emit = defineEmits(['confettiVisible'])
 
+// Хук жизненного цикла, вызываемый при монтировании компонента
 onMounted(async () => {
-
+    // Установка размеров canvas
     canvas.value.width = window.innerWidth;
     canvas.value.height = window.innerHeight;
     canvas.value.style.background = "";
-    const ctx = canvas.value.getContext("2d");
+    const ctx = canvas.value.getContext("2d"); // Получение контекста для рисования
 
-    let balls = [];
-    const nbrOfBalls = 200;//Change for more balls
+    let balls = []; // Массив для хранения шаров
+    const nbrOfBalls = 200; // Количество шаров
 
-    const Ball = function(x, y, dx, dy, radius, speed, gravity, spread, color, opacitySpeed = 0) {//Object describing a ball
+    // Конструктор для создания объекта шара
+    const Ball = function(x, y, dx, dy, radius, speed, gravity, spread, color, opacitySpeed = 0) {
         this.x = x;
         this.y = y;
         this.dx = dx;
         this.dy = dy;
-        
         this.radius = radius;
         this.gravity = gravity;
         this.spread = spread;
@@ -29,6 +32,7 @@ onMounted(async () => {
         this.opacity = 1;
         this.reachedTop = false
 
+        // Метод для рисования шара
         this.draw = function(){
             ctx.beginPath();
             ctx.fillStyle = this.color;
@@ -37,6 +41,8 @@ onMounted(async () => {
             ctx.arc(this.x, this.y, this.radius, 0, 2 * Math.PI);
             ctx.fill();
         }
+
+        // Метод для перемещения шара
         this.move = function(){
             this.x += this.spread * this.dx;
 
@@ -50,62 +56,58 @@ onMounted(async () => {
         }
     }
 
-    for(let i = 0; i < nbrOfBalls; i++){//Initiate the ball array
+    // Инициализация массива шаров
+    for(let i = 0; i < nbrOfBalls; i++){
         const xDir = Math.random()*2-1;
         let yDir = Math.random()*2-1;
-
         const speed = Math.random()*2+5
         const gravity = 10
         const spread = 5
-
-        // Set initial upward velocity if ball is going upward
         yDir *= speed
-        
-        balls.push(new Ball(canvas.value.width / 2, canvas.value.height / 10, xDir, yDir, 3, speed, gravity, spread, getRandomColor(), 0.005));  
+        balls.push(new Ball(canvas.value.width / 2, canvas.value.height / 10, xDir, yDir, 3, speed, gravity, spread, getRandomColor(), 0.005));
     }
 
+    // Функция для проверки столкновения шара с границами canvas
     function wallHit(ball, canvasRef){
         if(ball.opacity <= 0) {
             return true
         }
 
-        if(((ball.x+ball.radius)>=canvasRef.width || (ball.x-ball.radius)<=0) && (ball.y-ball.radius)<=0){	//If 
+        if(((ball.x+ball.radius)>=canvasRef.width || (ball.x-ball.radius)<=0) && (ball.y-ball.radius)<=0){
             return true
-        }else	if((ball.x+ball.radius)>=canvasRef.width || (ball.x-ball.radius)<=0){
+        } else if((ball.x+ball.radius)>=canvasRef.width || (ball.x-ball.radius)<=0){
             return true
-        }else if((ball.y-ball.radius)<=0 || (ball.y+ball.radius)>=canvasRef.height){
+        } else if((ball.y-ball.radius)<=0 || (ball.y+ball.radius)>=canvasRef.height){
             return true
         }
         return false
     }
 
-    
+    // Функция для рендеринга шаров
     function Render() {
-        //ctx.fillStyle = "rgba(0, 0, 0, 0.05)";
         ctx.clearRect(0,0,canvas.value.width,canvas.value.height);
-        //ctx.fillRect(0,0,canvas.width,canvas.height);
-        
+
         const ballsOutOfBounds = []
 
-
         for(let i = 0; i<balls.length;i++){
-            balls[i].draw();//draw new position
+            balls[i].draw(); // Рисование новой позиции шара
             if(wallHit(balls[i], canvas.value)) {
                 ballsOutOfBounds.push(balls[i])
             }
-            balls[i].move();//change position
+            balls[i].move(); // Изменение позиции шара
         }
-        
+
         if(ballsOutOfBounds.length !== balls.length) {
             window.requestAnimationFrame(Render);
         } else {
-            // unmount itself when done
+            // Отправка события в родительский компонент при завершении анимации
             emit('confettiVisible')
         }
     }
 
     Render()
-    
+
+    // Функция для изменения размера окна
     function resizeWindow(event){
         event.preventDefault()
         if(canvas?.value?.width && canvas?.value?.height) {
@@ -114,16 +116,12 @@ onMounted(async () => {
         }
     }
 
+    // Добавление обработчика события изменения размера окна
     window.addEventListener('resize', resizeWindow)
-
-
 })
 
-
-
-
-
-function getRandomColor(){//A function for generating a random color.
+// Функция для генерации случайного цвета
+function getRandomColor(){
   let color = "";
   for(let i = 0; i<3; i++){
     color +=Math.floor(Math.random()*255);
@@ -131,28 +129,26 @@ function getRandomColor(){//A function for generating a random color.
       color += ",";
     }
   }
-  
   return color;
 }
-
-
 </script>
 
 <template>
+    <!-- Canvas для отображения конфетти -->
     <canvas class="confetti" ref="canvas"></canvas>
 </template>
 
 <style scoped lang="scss">
     .confetti {
-        overflow: hidden;
-        margin: 0;
-        padding: 0;
-        position: fixed;
-        top: 0;
-        left: 0;
-        pointer-events: none;
-        width: 100%;
-        height: 100%;
-        z-index: 100000;
+        overflow: hidden; // Скрытие переполнения
+        margin: 0; // Удаление отступов
+        padding: 0; // Удаление внутренних отступов
+        position: fixed; // Фиксированное положение
+        top: 0; // Верхняя граница
+        left: 0; // Левая граница
+        pointer-events: none; // Отключение событий указателя
+        width: 100%; // Ширина на весь экран
+        height: 100%; // Высота на весь экран
+        z-index: 100000; // Приоритетный слой
     }
 </style>

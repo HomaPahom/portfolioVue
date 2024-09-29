@@ -1,56 +1,58 @@
 <template>
+    <!-- Основной контейнер для разворачиваемого раздела -->
     <div class="expandable-section" :class="{'toggled': sectionToggled}" ref="expandableSection">
+        <!-- Кнопка для разворачивания/сворачивания раздела -->
         <button class="expand-button" @click="toggleSection()">
-            {{ title }}
-            <div class="expand-icon">
-            </div>
+            {{ title }} <!-- Отображение заголовка раздела -->
+            <div class="expand-icon"></div> <!-- Иконка для разворачивания/сворачивания -->
         </button>
+        <!-- Контейнер для содержимого раздела -->
         <div class="content-container" ref="contentContainer" :style="{ 'height': this.contentHeight + 'px' }">
+            <!-- Контейнер для слотов (содержимого) -->
             <div class="content" ref="content">
-                <slot></slot>
+                <slot></slot> <!-- Слот для вставки содержимого -->
             </div>
         </div>
-
-    </div>    
+    </div>
 </template>
 
 <script>
-
 export default {
-    name: 'ExpandableSection',
+    name: 'ExpandableSection', // Имя компонента
     data(){
         return {
-            sectionToggled: false,
-            contentHeight: 0,
+            sectionToggled: false, // Состояние разворачивания/сворачивания раздела
+            contentHeight: 0, // Высота содержимого раздела
         }
     },
     props: {
         title: {
-            type: String,
-            required: true
+            type: String, // Тип пропса
+            required: true // Обязательный пропс
         },
     },
     methods: {
         toggleSection() {
-            this.sectionToggled = !this.sectionToggled
+            this.sectionToggled = !this.sectionToggled // Переключение состояния разворачивания/сворачивания
 
             if(this.sectionToggled) {
-                this.contentHeight = this.$refs.content.offsetHeight;
-                this.$refs.expandableSection.scrollIntoView({ behavior: "smooth" });
+                this.contentHeight = this.$refs.content.offsetHeight; // Установка высоты содержимого
+                this.$refs.expandableSection.scrollIntoView({ behavior: "smooth" }); // Плавная прокрутка к разделу
 
-                window.addEventListener("resize", this.resize);
+                window.addEventListener("resize", this.resize); // Добавление обработчика изменения размера окна
 
             } else {
-                this.contentHeight = 0;
-                window.removeEventListener("resize", this.resize);
+                this.contentHeight = 0; // Сброс высоты содержимого
+                window.removeEventListener("resize", this.resize); // Удаление обработчика изменения размера окна
             }
         },
         resize() {
-            this.contentHeight = this.$refs.content.offsetHeight;
+            this.contentHeight = this.$refs.content.offsetHeight; // Обновление высоты содержимого при изменении размера окна
         }
     }
 }
 </script>
+
 
 <style lang="scss" scoped>
     .expandable-section {
